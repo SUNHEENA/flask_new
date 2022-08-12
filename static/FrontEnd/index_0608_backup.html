@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<head>
+    <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="apple.css">
+    <title>Flask 홈페이지</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function (e){
+		$(document).on("click","img",function(){
+			var path = $(this).attr('src')
+			showImage(path);
+		});//end click event
+
+		function showImage(fileCallPath){
+			form = document.thisform;
+			fileCallPath='static/image/main.png'
+			//오리지널 원본으로 보여주기...
+			    $(".bigPictureWrapper").css("display","flex").show();
+			    $(".bigPicture")
+			    .html("<img src='"+fileCallPath+"' >")
+			    .animate({width:'50%', height: '50%'}, 500);
+		  }//end fileCallPath
+
+		$(".bigPictureWrapper").on("click", function(e){
+		    $(".bigPicture").animate({width:'0%', height: '0%'}, 0);
+		    setTimeout(function(){
+		      $('.bigPictureWrapper').hide();
+		    }, 0);
+		  });//end bigWrapperClick event
+	});
+	function resize(obj) {
+		obj.style.height = "1px";
+		obj.style.height = (12+obj.scrollHeight)+"px";
+	}
+    </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+			{% for key, value in data.items() %}
+				{% if value is string %}
+					['{{ key }}', '{{ value }}'],
+				{% else %}
+					['{{ key }}', {{ value }}],
+				{% endif %}
+			{% endfor %}
+        ]);
+
+        var options = {
+          title: '링크별 방문자 Cnt',
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
+
+</head>
+<body>
+<table width="750">
+  <div class="top_menu">
+        <input type="button" value="Main" onClick="location.href='/'" class="Btn top_btn">
+        <input type="button" value="Index2" onClick="location.href='index2'" class="Btn top_btn">
+        <input type="button" value="DF_Site" onClick="location.href='df_site'" class="Btn top_btn">
+         <input type="button" value="My_sql" onClick="location.href='mysql_test'" class="Btn top_btn">
+          <input type="button" value="Chart" onClick="location.href='chart'" class="Btn top_btn">
+          <div class="dropdown">
+          <button class="dropbtn">가고 싶은 사이트 선택</button>
+          <div class="dropdown-content">
+           <a href="index2">index2 주소 ☻</a><br>
+            <a href="df_site">df_site 주소 ☺</a><br>
+            <a href="mysql_test">mysql_test 주소 😐</a><br>
+            <a href="chart">chart_sample 주소😎</a>
+          </div>
+</div>
+    </div>
+<h1 >Main Site!</h1>
+<div><img  id='bigImg' src="{{ url_for('static', filename='image/main.png')}}"/></div>
+<p>안녕하세요. 저는 FLASK 플린이 입니다!</p>
+<div class='bigPictureWrapper'>
+				<div class='bigPicture'>
+				</div>
+</div>
+    <button type="button" onclick="location.href='insert'" class="red" >MainCount</button>
+    <div>INSERT result : {{result}}</div>
+<p> <div id="piechart_3d" style="width: 900px; height: 500px;"></div></p>
+</table>
+</body>
+</html>

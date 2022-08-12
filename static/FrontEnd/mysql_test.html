@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+table {
+font-family: arial, sans-serif;
+border-collapse: collapse;
+width: 25%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+titleColor {
+    background-color: #8B0000;
+}
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>mysql 결과!</title>
+</head>
+<body>
+<p>여기에 DataFrame를 표시해줄 겁니다.<br>
+MYSQL 에서 가져온 결과 입니다.
+</p>
+
+{% for table in tables %}
+            {{ table|safe }}
+{% endfor %}
+
+<p>어떻게 하면 DataFrame을 멋지게 표현할 수 있을까요?(hint : 노가다!)</p>
+<a href="/">Main으로 이동</a><br>
+</body>
+</html>
