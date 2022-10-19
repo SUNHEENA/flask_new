@@ -130,8 +130,15 @@ def del_ajax():
 ##get 하는 주소
 @app.route('/getTest')
 def getterSetter():
+    parameter_dict = request.args.to_dict()
+    if len(parameter_dict) == 0:
+        return 'No parameter'
+
+    parameters = ''
+    for key in parameter_dict.keys():
+        parameters += 'key: {}, value: {}\n'.format(key, request.args[key])
     db = dbHandling.DB()
-    cntList = db.getSample()
+    cntList = db.getSample(parameter_dict['name'])
     return jsonify(cntList)
 
 if __name__ == '__main__':

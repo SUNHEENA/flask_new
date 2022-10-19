@@ -42,10 +42,13 @@ class DB:
             countList[countDF['day'][index]] = r
         return countList
 
-    def getSample(self):
+    def getSample(self,day):
         ret = []
 
         sql = self.select_df
+
+        if day !='':
+            sql += f" where day ='{day}'"
         self.cursor.execute(sql)
 
         rows = self.cursor.fetchall()
